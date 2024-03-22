@@ -81,24 +81,9 @@ public class Activite4 extends JFrame {
         bottomPanel.add(receptionButton, BorderLayout.EAST);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
-
         //finish setting
         setContentPane(panel);
         setVisible(true);
-
-        /*
-        //output periodic message
-            while (true) {
-                try {
-                    outputArea.append(periodicMessage + "\n");
-                    System.out.println(periodicMessage);
-                    setScrollBarBottom(scrollPane);
-                    Thread.sleep(2000);
-                } catch (InterruptedException err) {
-                    System.out.println("Exception : " + err.getMessage());
-                }
-            }
-        */
 
         // Listen for standard input in a separate thread
         Thread inputListenerThread = new Thread(() -> {
