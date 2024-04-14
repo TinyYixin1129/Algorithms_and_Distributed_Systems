@@ -7,6 +7,7 @@ import (
 	"sync"
 )
 
+//calculat the somme of a table and put the answer into a channel
 func sommer(table []int, c chan<- int) {
 	sum := 0
 	for _, val := range table {
@@ -16,6 +17,7 @@ func sommer(table []int, c chan<- int) {
 }
 
 func main() {
+	//default 100 numbers
 	len := flag.Int("n", 100, "length")
 	flag.Parse()
 	length := *len
@@ -25,6 +27,7 @@ func main() {
 		return
 	}
 
+	//initialize the table
 	numbers := make([]int, length)
 	for i := 0; i < length; i++ {
 		numbers[i] = i + 1

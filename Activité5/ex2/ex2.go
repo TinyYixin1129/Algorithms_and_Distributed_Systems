@@ -6,20 +6,21 @@ import (
 	"sync"
 )
 
+//recursion algorithm
 func filter(thisPrime int, in <-chan int, wg *sync.WaitGroup, results chan<- int) {
 	defer wg.Done()
-	out := make(chan int)
+	out := make(chan int)				//channel sending the non-filtered numbers
 	nextPrime := 0
 	var nextWg sync.WaitGroup
 
 	for n := range in {
 		if n%thisPrime != 0 {
-			if nextPrime == 0 { //the first is the prime
-				nextPrime = n
+			if nextPrime == 0 { 		//the first is the prime
+				nextPrime = n			//set the next prime
 				results <- nextPrime
 				nextWg.Add(1)
 				go filter(nextPrime, out, &nextWg, results)
-			} else { //keep the rest
+			} else { //keep the rest and sent to the next filter
 				out <- n
 			}
 		}
@@ -29,6 +30,7 @@ func filter(thisPrime int, in <-chan int, wg *sync.WaitGroup, results chan<- int
 }
 
 func main() {
+	//default until 100
 	maxi := flag.Int("n", 100, "length")
 	flag.Parse()
 	max := *maxi
@@ -38,15 +40,18 @@ func main() {
 		return
 	}
 
+
 	c := make(chan int)
 	results := make(chan int, max)
-	results <- 2
+	results <- 2	//set 2 the first prime
 
 	var wg sync.WaitGroup
 
 	wg.Add(1)
+	//begin the recursion
 	go filter(2, c, &wg, results)
-
+	
+	//send all the numbers to the first filter
 	for i := 3; i <= max; i++ {
 		c <- i
 	}
